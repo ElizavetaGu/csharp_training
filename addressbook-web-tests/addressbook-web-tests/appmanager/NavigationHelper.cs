@@ -12,7 +12,7 @@ namespace addressbook_web_tests
     public class NavigationHelper : HelperBase
     {
         public string baseURL;
-        public NavigationHelper(IWebDriver driver, string baseURL) : base(driver)
+        public NavigationHelper(ApplicationManager manager, string baseURL) : base(manager)
         {
             this.baseURL = baseURL;
         }
@@ -20,10 +20,7 @@ namespace addressbook_web_tests
         {
             driver.FindElement(By.LinkText("groups")).Click();
         }
-        public void ReturnToGroupsPage()
-        {
-            driver.FindElement(By.LinkText("group page")).Click();
-        }
+
         public void OpenHomePage()
         {
             driver.Navigate().GoToUrl(baseURL);
