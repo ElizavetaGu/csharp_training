@@ -11,6 +11,8 @@ namespace addressbook_web_tests
 {
     public class ContactHelper : HelperBase
     {
+        public string baseURL;
+
         public ContactHelper(ApplicationManager manager) : base (manager)
         {
         }
@@ -25,23 +27,49 @@ namespace addressbook_web_tests
             return this;
         }
 
-        public ContactHelper Remove()
+        public void Remove()
         {
-            SelectContact();
-            DeleteContact();
-            ConfirmContactRemoval();
-            manager.Navigator.OpenHomePage();
-            return this;
+            if (!DoesContactExist())
+            {
+                ContactData newContact = new ContactData("name");
+                Create(newContact);
+                Remove();
+
+            }
+            else
+            {
+                SelectContact();
+                DeleteContact();
+                ConfirmContactRemoval();
+                manager.Navigator.OpenHomePage();
+            }
+
         }
 
         public ContactHelper Modify(ContactData contact)
         {
-            SelectContact();
-            InitContactModification();
-            FillContactForm(contact);
-            UpdateContact();
-            manager.Navigator.OpenHomePage();
+            if (!DoesContactExist())
+            {
+                ContactData newContact = new ContactData("name");
+                Create(newContact);
+                Modify(contact);
+
+            }
+            else
+            {
+                SelectContact();
+                InitContactModification();
+                FillContactForm(contact);
+                UpdateContact();
+                manager.Navigator.OpenHomePage();
+            }
+            
             return this;
+        }
+
+        public bool DoesContactExist()
+        {
+            return IsElementPresent(By.Name("selected[]"));
         }
 
         public ContactHelper AddNewContactPage()

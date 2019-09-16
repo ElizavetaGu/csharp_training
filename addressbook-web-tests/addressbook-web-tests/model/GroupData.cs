@@ -16,7 +16,7 @@ namespace addressbook_web_tests
         public GroupData(string name)
         {
             this.name = name;
-         }
+        }
 
         public string Name
         {

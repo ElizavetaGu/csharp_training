@@ -11,7 +11,6 @@ namespace addressbook_web_tests
 {
     public class GroupHelper : HelperBase
     {
-        public string baseURL;
         public GroupHelper(ApplicationManager manager) : base(manager)
         {
         }
@@ -19,17 +18,31 @@ namespace addressbook_web_tests
         public void Remove()
         {
             manager.Navigator.GoToGroupsPage();
+            if (! DoesGroupExist())
+            {
+                GroupData group = new GroupData("name");
+                Create(group);
+                Remove();
 
-            SelectGroup();
-            RemoveGroup();
-            ReturnToGroupsPage();
-            
+            }
+
+            else
+            {
+                SelectGroup();
+                RemoveGroup();
+                ReturnToGroupsPage();
+            }
+        }
+
+       private bool DoesGroupExist()
+        {
+            return IsElementPresent(By.Name("selected[]"));
         }
 
         public GroupHelper Create(GroupData group)
         {
             manager.Navigator.GoToGroupsPage();
-
+            
             InitGroupCreation();
             FillGroupForm(group);
             SubmitGroupCreation();
@@ -40,11 +53,22 @@ namespace addressbook_web_tests
         public GroupHelper Modify(GroupData group)
         {
             manager.Navigator.GoToGroupsPage();
-            SelectGroup();
-            InitGroupModification();
-            FillGroupForm(group);
-            UpdateGroup();
-            ReturnToGroupsPage();
+
+            if (!DoesGroupExist())
+            {
+                GroupData newGroup = new GroupData("name");
+                Create(newGroup);
+                Modify(group);
+
+            }
+            else
+            {
+                SelectGroup();
+                InitGroupModification();
+                FillGroupForm(group);
+                UpdateGroup();
+                ReturnToGroupsPage();
+            }
             return this;
         }
         public GroupHelper InitGroupCreation()
