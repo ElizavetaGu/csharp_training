@@ -16,9 +16,19 @@ namespace addressbook_web_tests.Tests
             ContactData contact = new ContactData("AnnaModified2");
             contact.Surname = null;
 
-            app.Contacts.Modify(contact);
+            if (!app.Contacts.DoesContactExist())
+            {
+                ContactData newContact = new ContactData("name");
+                app.Contacts.Create(newContact);
+                app.Contacts.Modify(contact);
+            }
+
+            else
+            {
+                 app.Contacts.Modify(contact);
+            }
+
             app.Auth.Logout();
         }
-        
     }
 }

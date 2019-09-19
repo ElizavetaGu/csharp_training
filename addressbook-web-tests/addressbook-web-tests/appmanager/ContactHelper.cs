@@ -29,41 +29,22 @@ namespace addressbook_web_tests
 
         public void Remove()
         {
-            if (!DoesContactExist())
-            {
-                ContactData newContact = new ContactData("name");
-                Create(newContact);
-                Remove();
 
-            }
-            else
-            {
-                SelectContact();
-                DeleteContact();
-                ConfirmContactRemoval();
-                manager.Navigator.OpenHomePage();
-            }
-
+            SelectContact();
+            DeleteContact();
+            ConfirmContactRemoval();
+            manager.Navigator.OpenHomePage();
         }
 
         public ContactHelper Modify(ContactData contact)
         {
-            if (!DoesContactExist())
-            {
-                ContactData newContact = new ContactData("name");
-                Create(newContact);
-                Modify(contact);
 
-            }
-            else
-            {
-                SelectContact();
-                InitContactModification();
-                FillContactForm(contact);
-                UpdateContact();
-                manager.Navigator.OpenHomePage();
-            }
-            
+            SelectContact();
+            InitContactModification();
+            FillContactForm(contact);
+            UpdateContact();
+            manager.Navigator.OpenHomePage();
+
             return this;
         }
 

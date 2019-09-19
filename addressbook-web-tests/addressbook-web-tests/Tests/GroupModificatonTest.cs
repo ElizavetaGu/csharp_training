@@ -17,8 +17,19 @@ namespace addressbook_web_tests.Tests
             GroupData group = new GroupData("modifiedName");
             group.Header = null;
             group.Footer = null;
-            
-            app.Groups.Modify(group);
+
+            if (!app.Groups.DoesGroupExist())
+            {
+                GroupData newGroup = new GroupData("name");
+                app.Groups.Create(newGroup);
+                app.Groups.Modify(group);
+
+            }
+            else
+            {
+                app.Groups.Modify(group);
+            }
+
             app.Auth.Logout();
         }
 
