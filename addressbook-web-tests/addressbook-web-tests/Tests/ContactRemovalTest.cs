@@ -21,16 +21,13 @@ namespace addressbook_web_tests
             {
                 ContactData newContact = new ContactData("name");
                 app.Contacts.Create(newContact);
-                app.Contacts.Remove();
-
-            }
-            else
-            {
-
-                app.Contacts.Remove();
-
             }
 
+            List<ContactData> oldGroups = app.Contacts.GetContactsList();
+            app.Contacts.Remove(0);
+            oldGroups.RemoveAt(0);
+            List<ContactData> newGroups = app.Contacts.GetContactsList();
+            Assert.AreEqual(oldGroups, newGroups);
             app.Auth.Logout();
         }
     }

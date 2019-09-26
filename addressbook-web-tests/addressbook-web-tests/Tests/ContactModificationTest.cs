@@ -20,14 +20,9 @@ namespace addressbook_web_tests.Tests
             {
                 ContactData newContact = new ContactData("name");
                 app.Contacts.Create(newContact);
-                app.Contacts.Modify(contact);
             }
 
-            else
-            {
-                 app.Contacts.Modify(contact);
-            }
-
+            app.Contacts.Modify(contact, 0);
             app.Auth.Logout();
         }
     }

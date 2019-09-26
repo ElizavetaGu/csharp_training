@@ -22,14 +22,9 @@ namespace addressbook_web_tests.Tests
             {
                 GroupData newGroup = new GroupData("name");
                 app.Groups.Create(newGroup);
-                app.Groups.Modify(group);
-
-            }
-            else
-            {
-                app.Groups.Modify(group);
             }
 
+            app.Groups.Modify(group);
             app.Auth.Logout();
         }
 

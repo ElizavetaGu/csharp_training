@@ -19,19 +19,15 @@ namespace addressbook_web_tests
             {
                 GroupData group = new GroupData("name");
                 app.Groups.Create(group);
-                app.Groups.Remove(0);
             }
 
-            else
-            {
-                List<GroupData> oldGroups = app.Groups.GetGroupList();
-                app.Groups.Remove(0);
+            List<GroupData> oldGroups = app.Groups.GetGroupList();
+            app.Groups.Remove(0);
 
-                List<GroupData> newGroups = app.Groups.GetGroupList();
+            List<GroupData> newGroups = app.Groups.GetGroupList();
 
-                oldGroups.RemoveAt(0);
-                Assert.AreEqual(oldGroups, newGroups);
-            }
+            oldGroups.RemoveAt(0);
+            Assert.AreEqual(oldGroups, newGroups);
             
             app.Auth.Logout();
         }

@@ -27,19 +27,34 @@ namespace addressbook_web_tests
             return this;
         }
 
-        public void Remove()
+        public List<ContactData> GetContactsList()
+        {
+            manager.Navigator.OpenHomePage();
+            List<ContactData> contacts = new List<ContactData>();
+            
+            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name='entry']"));
+            
+            foreach (IWebElement element in elements)
+            {
+                ContactData contact = new ContactData(element.Text);
+                contacts.Add(contact);
+            }
+            return contacts;
+        }
+
+        public void Remove(int index)
         {
 
-            SelectContact();
+            SelectContact(index);
             DeleteContact();
             ConfirmContactRemoval();
             manager.Navigator.OpenHomePage();
         }
 
-        public ContactHelper Modify(ContactData contact)
+        public ContactHelper Modify(ContactData contact, int index)
         {
 
-            SelectContact();
+            SelectContact(index);
             InitContactModification();
             FillContactForm(contact);
             UpdateContact();
@@ -100,9 +115,9 @@ namespace addressbook_web_tests
             return this;
         }
 
-        public ContactHelper SelectContact()
+        public ContactHelper SelectContact(int index)
         {
-            driver.FindElement(By.Name("selected[]")).Click();
+            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index + 1) + "]")).Click();
             return this;
         }
     }
