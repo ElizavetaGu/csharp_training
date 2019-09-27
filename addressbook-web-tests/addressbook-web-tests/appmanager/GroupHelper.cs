@@ -54,11 +54,11 @@ namespace addressbook_web_tests
             return this;
         }
 
-        public GroupHelper Modify(GroupData group)
+        public GroupHelper Modify(GroupData group, int index)
         {
             manager.Navigator.GoToGroupsPage();
 
-            SelectGroup(0);
+            SelectGroup(index);
             InitGroupModification();
             FillGroupForm(group);
             UpdateGroup();

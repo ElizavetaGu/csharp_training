@@ -23,11 +23,18 @@ namespace addressbook_web_tests
                 app.Contacts.Create(newContact);
             }
 
-            List<ContactData> oldGroups = app.Contacts.GetContactsList();
+            List<ContactData> oldContacts = app.Contacts.GetContactsList();
             app.Contacts.Remove(0);
-            oldGroups.RemoveAt(0);
-            List<ContactData> newGroups = app.Contacts.GetContactsList();
-            Assert.AreEqual(oldGroups, newGroups);
+            
+            List<ContactData> newContacts = app.Contacts.GetContactsList();
+
+            oldContacts.RemoveAt(0);
+
+            oldContacts.Sort();
+            newContacts.Sort();
+
+            Assert.AreEqual(oldContacts, newContacts);
+
             app.Auth.Logout();
         }
     }

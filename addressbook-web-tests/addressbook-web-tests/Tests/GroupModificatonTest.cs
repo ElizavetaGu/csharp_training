@@ -24,7 +24,15 @@ namespace addressbook_web_tests.Tests
                 app.Groups.Create(newGroup);
             }
 
-            app.Groups.Modify(group);
+            List<GroupData> oldGroups = app.Groups.GetGroupList();
+            app.Groups.Modify(group, 0);
+
+            List<GroupData> newGroups = app.Groups.GetGroupList();
+            oldGroups[0].Name = group.Name;
+            oldGroups.Sort();
+            newGroups.Sort();
+            Assert.AreEqual(oldGroups, newGroups);
+
             app.Auth.Logout();
         }
 

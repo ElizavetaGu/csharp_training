@@ -60,7 +60,7 @@ namespace addressbook_web_tests
 
         public override string ToString()
         {
-            return "name=" + Name;
+            return "name=" + Name + " surname=" + Surname;
         }
 
         public int CompareTo(ContactData other)
@@ -70,7 +70,12 @@ namespace addressbook_web_tests
                 return 1;
             }
 
-            return Name.CompareTo(other.Name);
+            if (Surname.CompareTo(other.Surname) == 0)
+            {
+                return Name.CompareTo(other.Name);
+            }
+
+            return Surname.CompareTo(other.Surname);
         }
     }
 

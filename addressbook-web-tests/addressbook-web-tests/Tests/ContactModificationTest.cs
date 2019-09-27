@@ -21,8 +21,17 @@ namespace addressbook_web_tests.Tests
                 ContactData newContact = new ContactData("name");
                 app.Contacts.Create(newContact);
             }
+            List<ContactData> oldContacts = app.Contacts.GetContactsList();
 
             app.Contacts.Modify(contact, 0);
+            List<ContactData> newContacts = app.Contacts.GetContactsList();
+
+            oldContacts[0].Name = contact.Name;
+            oldContacts[0].Surname = contact.Surname;
+
+            oldContacts.Sort();
+            newContacts.Sort();
+
             app.Auth.Logout();
         }
     }
