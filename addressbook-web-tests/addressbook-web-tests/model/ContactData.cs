@@ -8,35 +8,14 @@ namespace addressbook_web_tests
 {
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
-        private string name;
-        private string surname = "";
         public ContactData(string name)
         {
-            this.name = name;
+            Name = name;
         }
 
-        public string Name
-        {
-            get
-            {
-                return name;
-            }
-            set
-            {
-                name = value;
-            }
-        }
-        public string Surname
-        {
-            get
-            {
-                return surname;
-            }
-            set
-            {
-                surname = value;
-            }
-        }
+        public string Name { get; set; }
+
+        public string Surname { get; set; }
 
         public bool Equals(ContactData other)
         {

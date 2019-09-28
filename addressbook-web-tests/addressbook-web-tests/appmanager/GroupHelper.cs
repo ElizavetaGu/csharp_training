@@ -36,7 +36,11 @@ namespace addressbook_web_tests
                 ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
                 foreach (IWebElement element in elements)
                 {
-                    groupCashe.Add(new GroupData(element.Text));
+                    groupCashe.Add(new GroupData(element.Text) {
+                        //задаем одно св-во через конструктор
+                        ID = element.FindElement(By.TagName("input")).GetAttribute("value")
+                        //при конструировании объекта можно сразу указать ему доп. свойство
+                    });
                 }
             }
             return new List<GroupData>(groupCashe);

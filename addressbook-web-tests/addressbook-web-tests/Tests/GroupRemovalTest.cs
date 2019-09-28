@@ -25,14 +25,18 @@ namespace addressbook_web_tests
             app.Groups.Remove(0);
 
             List<GroupData> newGroups = app.Groups.GetGroupList();
-
-            oldGroups.RemoveAt(0);
-
+            GroupData toBeRemoved = oldGroups[0]; //сохраняем группу, которую удалим, для проверок в конце
             Assert.AreEqual(oldGroups.Count - 1, app.Groups.GetGroupCount());
-
+            oldGroups.RemoveAt(0);
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
+
+            //проверяем, что удаленная группа действительно удалилась и ее ID нет в новом списке групп
+            foreach (GroupData group in newGroups)
+            {
+                Assert.AreNotEqual(group.ID, toBeRemoved.ID);
+            }
             
             app.Auth.Logout();
         }
