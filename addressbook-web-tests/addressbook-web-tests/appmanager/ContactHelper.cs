@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
+using System.Text.RegularExpressions;
 
 namespace addressbook_web_tests
 {
@@ -15,6 +16,53 @@ namespace addressbook_web_tests
 
         public ContactHelper(ApplicationManager manager) : base (manager)
         {
+        }
+
+        public ContactData GetContactInfoFromTable(int index)
+        {
+            manager.Navigator.OpenHomePage();
+            IList<IWebElement> cells = driver.FindElements(By.Name("entry"))[index]
+                .FindElements(By.TagName("td"));
+            string lastName = cells[1].Text;
+            string firstName = cells[2].Text;
+            string address = cells[3].Text;
+            string allEmails = cells[4].Text;
+            string allPhones = cells[5].Text;
+
+            return new ContactData(firstName)
+            {
+                Surname = lastName,
+                Address = address,
+                AllPhones = allPhones,
+                AllEmails = allEmails
+            };
+        }
+
+        public ContactData GetContactInfoFromEditForm(int index)
+        {
+            manager.Navigator.OpenHomePage();
+            InitContactModification();
+            string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
+            string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
+            string address = driver.FindElement(By.Name("address")).GetAttribute("value");
+            string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
+            string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
+            string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
+            string email1 = driver.FindElement(By.Name("email")).GetAttribute("value");
+            string email2 = driver.FindElement(By.Name("email2")).GetAttribute("value");
+            string email3 = driver.FindElement(By.Name("email3")).GetAttribute("value");
+
+            return new ContactData(firstName)
+            {
+                Surname = lastName,
+                Address = address,
+                HomePhone = homePhone,
+                MobilePhone = mobilePhone,
+                WorkPhone = workPhone,
+                Email1 = email1,
+                Email2 = email2,
+                Email3 = email3
+            };
         }
 
         public ContactHelper Create(ContactData contact)
@@ -136,6 +184,14 @@ namespace addressbook_web_tests
         {
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index + 1) + "]")).Click();
             return this;
+        }
+
+        public int GetNumberOfSearchResults()
+        {
+            manager.Navigator.OpenHomePage();
+            return Int32.Parse(driver.FindElement(By.CssSelector("strong span")).Text);
+            /*Match m = new Regex(@"\d+").Match(text); //создаем РВ и применяем его к тексту
+            return Int32.Parse(m.Value); //забрали ту часть текста, которая удовлетворяет РВ*/
         }
     }
 }
