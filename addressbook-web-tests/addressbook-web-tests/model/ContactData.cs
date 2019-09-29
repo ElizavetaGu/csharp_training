@@ -54,7 +54,7 @@ namespace addressbook_web_tests
                 }
                 else
                 {
-                    return (Email1 + Email2 + Email3).Trim();
+                    return (Email1 + "\r\n" + Email2 + "\r\n" + Email3).Trim();
                 }
             }
             set
@@ -69,7 +69,7 @@ namespace addressbook_web_tests
             {
                 return "";
             }
-            return Regex.Replace(phone, "[ -()]", "") + "\r\n";
+            return Regex.Replace(phone, "[ ()-]", "") + "\r\n";
         }
          
         public bool Equals(ContactData other)
