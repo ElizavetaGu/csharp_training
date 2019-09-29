@@ -12,7 +12,7 @@ namespace addressbook_web_tests
     {
 
         [Test]
-        public void ContactInfoEditPageTest()
+        public void ContactInfoMainPageTest()
         {
             ContactData fromTable = app.Contacts.GetContactInfoFromTable(0);
             ContactData fromForm = app.Contacts.GetContactInfoFromEditForm(0);
@@ -23,5 +23,13 @@ namespace addressbook_web_tests
             Assert.AreEqual(fromTable.AllEmails, fromForm.AllEmails);
         }
 
+        [Test]
+        public void ContactInfoPropertiesPageTest()
+        {
+            ContactData fromForm = app.Contacts.GetContactInfoFromEditForm(0);
+            ContactData fromProperties = app.Contacts.GetContactInfoFromPropertiesForm(0);
+
+            Assert.AreEqual(fromProperties.AllProperties, fromForm.AllProperties);
+        }
     }
 }

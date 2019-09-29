@@ -9,12 +9,17 @@ namespace addressbook_web_tests
 {
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
+        public string allProperties;
         public string allPhones;
         public string allEmails;
 
         public ContactData(string name)
         {
             Name = name;
+        }
+        public ContactData()
+        {
+            AllProperties = allProperties;
         }
 
         public string Name { get; set; }
@@ -26,6 +31,30 @@ namespace addressbook_web_tests
         public string Email1 { get; set; }
         public string Email2 { get; set; }
         public string Email3 { get; set; }
+        public string AllProperties
+        {
+            get
+            {
+                if (allProperties != null)
+                {
+                    return allProperties;
+                }
+                else
+                {
+                    return GetAllProperties();
+                }
+            }
+            set
+            {
+                allProperties = value;
+            }
+        }
+
+        private string GetAllProperties()
+        {
+            throw new NotImplementedException();
+        }
+
         public string AllPhones
         {
             get
@@ -54,7 +83,7 @@ namespace addressbook_web_tests
                 }
                 else
                 {
-                    return (Email1 + "\r\n" + Email2 + "\r\n" + Email3).Trim();
+                    return (CleanUpEmail(Email1) + CleanUpEmail(Email2) + CleanUpEmail(Email3)).Trim();
                 }
             }
             set
@@ -63,8 +92,21 @@ namespace addressbook_web_tests
             }
         }
 
+        private string CleanUpEmail(string email)
+        {
+            email = email.Trim(); //добавлено на случай, если строка состоит из одних пробелов
+            if (email == null || email == "")
+            {
+                return "";
+            }
+            return email + "\r\n"; 
+            //нет регулярки даже на пробелы, потому что один пробел в теле емейла
+            //не убирается в таблице на главной странице
+        }
+
         private string CleanUp(string phone)
         {
+            phone = phone.Trim(); //добавлено на случай, если строка состоит из одних пробелов
             if (phone == null || phone == "")
             {
                 return "";

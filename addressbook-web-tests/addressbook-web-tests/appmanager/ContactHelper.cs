@@ -7,6 +7,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 using System.Text.RegularExpressions;
+using System.Reflection;
 
 namespace addressbook_web_tests
 {
@@ -38,10 +39,22 @@ namespace addressbook_web_tests
             };
         }
 
+        internal ContactData GetContactInfoFromPropertiesForm(int index)
+        {
+            manager.Navigator.OpenHomePage();
+            SeeContactProperties(index);
+            string allProperties = driver.FindElement(By.Id("content")).Text;
+            allProperties = allProperties.Replace("\r\n", "");
+            return new ContactData()
+            {
+                AllProperties = allProperties
+            };
+        }
+
         public ContactData GetContactInfoFromEditForm(int index)
         {
             manager.Navigator.OpenHomePage();
-            InitContactModification();
+            InitContactModification(index);
             string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
             string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
             string address = driver.FindElement(By.Name("address")).GetAttribute("value");
@@ -63,6 +76,12 @@ namespace addressbook_web_tests
                 Email2 = email2,
                 Email3 = email3
             };
+        }
+
+        public string GetAllProperties(ContactData contact)
+        {
+            PropertyInfo[] listOfProperties = contact.GetType().GetProperties();
+            return "";
         }
 
         public ContactHelper Create(ContactData contact)
@@ -117,7 +136,7 @@ namespace addressbook_web_tests
         {
 
             SelectContact(index);
-            InitContactModification();
+            InitContactModification(index);
             FillContactForm(contact);
             UpdateContact();
             manager.Navigator.OpenHomePage();
@@ -154,9 +173,19 @@ namespace addressbook_web_tests
             return this;
         }
 
-        public ContactHelper InitContactModification()
+        public ContactHelper InitContactModification(int index)
         {
-            driver.FindElement(By.XPath("//img[@alt='Edit']")).Click();
+            driver.FindElements(By.Name("entry"))[index]
+                .FindElements(By.TagName("td"))[7]
+                .FindElement(By.TagName("a")).Click();
+            return this;
+        }
+
+        public ContactHelper SeeContactProperties(int index)
+        {
+            driver.FindElements(By.Name("entry"))[index]
+                .FindElements(By.TagName("td"))[6]
+                .FindElement(By.TagName("a")).Click();
             return this;
         }
 
