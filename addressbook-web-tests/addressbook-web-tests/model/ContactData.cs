@@ -69,8 +69,8 @@ namespace addressbook_web_tests
 
         public string GetAllProperties()
         {
-            string fullName = (Name == "" ? ("") : Name + " ") 
-                + (MiddleName == "" ? ("") : MiddleName + " ") 
+            string fullName = (Name == "" ? ("") : Name) 
+                + (MiddleName == "" ? ("") : MiddleName) 
                 + (Surname == "" ? ("") : Surname);
 
             string phones = (HomePhone == "" ? ("") : "H:" + HomePhone)
@@ -110,8 +110,8 @@ namespace addressbook_web_tests
 
             foreach (string property in allPropertiesList)
             {
+                //удаление всех пробелов из текст
                 allProperties = Regex.Replace(String.Concat(allProperties, property), "[ ]", "");
-                
             }
 
             return allProperties;
