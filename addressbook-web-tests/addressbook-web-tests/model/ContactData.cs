@@ -197,7 +197,7 @@ namespace addressbook_web_tests
 
         public override string ToString()
         {
-            return "name=" + Name + " surname=" + Surname;
+            return "name=" + Name + "\nsurname=" + Surname;
         }
 
         public int CompareTo(ContactData other)

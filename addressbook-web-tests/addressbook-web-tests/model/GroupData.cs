@@ -43,7 +43,8 @@ namespace addressbook_web_tests
 
         public override string ToString()
         {
-            return "name=" + Name;
+            //информация, которая отображается о тесте
+            return "name=" + Name + "\nheader= " + Header + "\nfooter" + Footer;
         }
 
         public int CompareTo(GroupData other)
