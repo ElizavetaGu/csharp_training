@@ -44,7 +44,8 @@ namespace addressbook_web_tests
             manager.Navigator.OpenHomePage();
             SeeContactProperties(index);
             string allProperties = driver.FindElement(By.Id("content")).Text;
-            allProperties = allProperties.Replace("\r\n", "");
+            //allProperties = allProperties.Replace("\r\n", "");
+            allProperties = Regex.Replace(allProperties, "[ \r\n]", "");
             return new ContactData()
             {
                 AllProperties = allProperties
@@ -65,6 +66,22 @@ namespace addressbook_web_tests
             string email2 = driver.FindElement(By.Name("email2")).GetAttribute("value");
             string email3 = driver.FindElement(By.Name("email3")).GetAttribute("value");
 
+            string middleName = driver.FindElement(By.Name("middlename")).GetAttribute("value");
+            string nickname = driver.FindElement(By.Name("nickname")).GetAttribute("value");
+            string company = driver.FindElement(By.Name("company")).GetAttribute("value");
+            string title = driver.FindElement(By.Name("title")).GetAttribute("value");
+            string fax = driver.FindElement(By.Name("fax")).GetAttribute("value");
+            string homepage = driver.FindElement(By.Name("homepage")).GetAttribute("value");
+            string bday = driver.FindElement(By.Name("bday")).GetAttribute("value");
+            string bmonth = driver.FindElement(By.Name("bmonth")).GetAttribute("value");
+            string byear = driver.FindElement(By.Name("byear")).GetAttribute("value");
+            string aday = driver.FindElement(By.Name("aday")).GetAttribute("value");
+            string amonth = driver.FindElement(By.Name("amonth")).GetAttribute("value");
+            string ayear = driver.FindElement(By.Name("ayear")).GetAttribute("value");
+            string address2 = driver.FindElement(By.Name("address2")).GetAttribute("value");
+            string phone2 = driver.FindElement(By.Name("phone2")).GetAttribute("value");
+            string notes = driver.FindElement(By.Name("notes")).GetAttribute("value");
+
             return new ContactData(firstName)
             {
                 Surname = lastName,
@@ -74,17 +91,27 @@ namespace addressbook_web_tests
                 WorkPhone = workPhone,
                 Email1 = email1,
                 Email2 = email2,
-                Email3 = email3
+                Email3 = email3,
+
+                MiddleName = middleName,
+                Nickname = nickname,
+                Company = company,
+                Title = title,
+                Fax = fax,
+                Homepage = homepage,
+                DayOfBirth = bday,
+                MonthOfBirth = bmonth,
+                YearOfBirth = byear,
+                DayOfAnn = aday,
+                MonthOfAnn = amonth,
+                YearOfAnn = ayear,
+                Address2 = address2,
+                Phone2 = phone2,
+                Notes = notes
             };
         }
 
-        public string GetAllProperties(ContactData contact)
-        {
-            PropertyInfo[] listOfProperties = contact.GetType().GetProperties();
-            return "";
-        }
-
-        public ContactHelper Create(ContactData contact)
+         public ContactHelper Create(ContactData contact)
         {
 
             AddNewContactPage();

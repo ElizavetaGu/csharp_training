@@ -23,14 +23,31 @@ namespace addressbook_web_tests
         }
 
         public string Name { get; set; }
+        public string MiddleName { get; set; }
         public string Surname { get; set; }
+        public string Nickname { get; set; }
+        public string Company { get; set; }
+        public string Title { get; set; }
         public string Address { get; set; }
         public string HomePhone { get; set; }
         public string MobilePhone { get; set; }
         public string WorkPhone { get; set; }
+        public string Fax { get; set; }
         public string Email1 { get; set; }
         public string Email2 { get; set; }
         public string Email3 { get; set; }
+        public string Homepage { get; set; }
+        public string DayOfBirth { get; set; }
+        public string MonthOfBirth { get; set; }
+        public string YearOfBirth { get; set; }
+        public string DayOfAnn { get; set; }
+        public string MonthOfAnn { get; set; }
+        public string YearOfAnn { get; set; }
+        public string Address2 { get; set; }
+        public string Phone2 { get; set; }
+        public string Notes { get; set; }
+
+        public string NumberOfFullYears { get; set; }
         public string AllProperties
         {
             get
@@ -50,11 +67,55 @@ namespace addressbook_web_tests
             }
         }
 
-        private string GetAllProperties()
+        public string GetAllProperties()
         {
-            throw new NotImplementedException();
-        }
+            string fullName = (Name == "" ? ("") : Name + " ") 
+                + (MiddleName == "" ? ("") : MiddleName + " ") 
+                + (Surname == "" ? ("") : Surname);
 
+            string phones = (HomePhone == "" ? ("") : "H:" + HomePhone)
+                + (MobilePhone == "" ? ("") : "M:" + MobilePhone)
+                + (WorkPhone == "" ? ("") : "W:" + WorkPhone)
+                + (Fax == "" ? ("") : "F:" + Fax);
+
+            string homepage = Homepage == "" ? ("") : "Homepage:" + Homepage;
+
+            string dateOfBirth = "";
+            if (DayOfBirth != "-" || MonthOfBirth != "-" || YearOfBirth != "")
+            {
+                dateOfBirth = "Birthday "
+                    + (DayOfBirth == "-"||DayOfBirth == "0" ? ("") : DayOfBirth + ".")
+                    + (MonthOfBirth == "-" ? ("") : MonthOfBirth + "")
+                    + (YearOfBirth == "" ? ("") : YearOfBirth + "(" + 
+                    (DateTime.Now.Year - Convert.ToInt32(YearOfBirth)).ToString() + ")");
+            }
+
+            string dateOfAnn = "";
+            if (DayOfAnn != "-" || MonthOfAnn != "-" || YearOfAnn != "")
+            {
+                dateOfAnn = "Anniversary "
+                    + (DayOfAnn == "-" ? ("") : DayOfAnn + ".")
+                    + (MonthOfAnn == "-" ? ("") : MonthOfAnn)
+                    + (YearOfAnn == "" ? ("") : YearOfAnn + "(" +
+                    (DateTime.Now.Year - Convert.ToInt32(YearOfAnn)).ToString() + ")");
+            }
+
+            string phone2 = Phone2 == "" ? ("") : "P:" + Phone2;
+
+            string[] allPropertiesList = { fullName, Nickname, Company,
+                Title, Address, phones, Email1, Email2,
+                Email3, homepage, dateOfBirth, dateOfAnn, Address2, phone2, Notes };
+
+            string allProperties = "";
+
+            foreach (string property in allPropertiesList)
+            {
+                allProperties = Regex.Replace(String.Concat(allProperties, property), "[ ]", "");
+                
+            }
+
+            return allProperties;
+        }
         public string AllPhones
         {
             get
