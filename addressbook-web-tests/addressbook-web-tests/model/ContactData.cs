@@ -69,50 +69,60 @@ namespace addressbook_web_tests
 
         public string GetAllProperties()
         {
-            string fullName = (Name == "" ? ("") : Name) 
-                + (MiddleName == "" ? ("") : MiddleName) 
-                + (Surname == "" ? ("") : Surname);
+            string fullName = (Name.Trim() == "" ? ("") : Name.Trim())
+                + (MiddleName.Trim() == "" ? ("") : " " + MiddleName.Trim()) 
+                + (Surname.Trim() == "" ? ("") : " " + Surname.Trim());
 
-            string phones = (HomePhone == "" ? ("") : "H:" + HomePhone)
-                + (MobilePhone == "" ? ("") : "M:" + MobilePhone)
-                + (WorkPhone == "" ? ("") : "W:" + WorkPhone)
-                + (Fax == "" ? ("") : "F:" + Fax);
+            string generalInfo = (fullName == "" ? ("") : fullName + "\r\n")
+                + (Nickname == "" ? ("") : Nickname.Trim() + "\r\n")
+                + (Title == "" ? ("") : Title.Trim() + "\r\n")
+                + (Company == "" ? ("") : Company.Trim() + "\r\n")
+                + (Address.Trim() == "" ? ("") : Address.Trim() + "\r\n");
 
-            string homepage = Homepage == "" ? ("") : "Homepage:" + Homepage;
+            string phones = (HomePhone == "" ? ("") : "H: " + HomePhone.Trim() + "\r\n")
+                + (MobilePhone == "" ? ("") : "M: " + MobilePhone.Trim() + "\r\n")
+                + (WorkPhone == "" ? ("") : "W: " + WorkPhone.Trim() + "\r\n")
+                + (Fax == "" ? ("") : "F:" + Fax.Trim() + "\r\n");
+
+            string emails = (Email1 == "" ? ("") : "" + Email1.Trim() + "\r\n")
+                + (Email2 == "" ? ("") : "" + Email2.Trim() + "\r\n")
+                + (Email3 == "" ? ("") : "" + Email3.Trim() + "\r\n")
+                + (Homepage == "" ? ("") : "Homepage:" + "\r\n" + Homepage.Trim() + "\r\n");
 
             string dateOfBirth = "";
-            if (DayOfBirth != "-" || MonthOfBirth != "-" || YearOfBirth != "")
+            if (DayOfBirth != "-" && DayOfBirth != "0" || MonthOfBirth != "-" ||
+                   YearOfBirth != "")
             {
                 dateOfBirth = "Birthday "
-                    + (DayOfBirth == "-"||DayOfBirth == "0" ? ("") : DayOfBirth + ".")
-                    + (MonthOfBirth == "-" ? ("") : MonthOfBirth + "")
-                    + (YearOfBirth == "" ? ("") : YearOfBirth + "(" + 
-                    (DateTime.Now.Year - Convert.ToInt32(YearOfBirth)).ToString() + ")");
+                    + (DayOfBirth == "-"||DayOfBirth == "0" ? ("") : DayOfBirth + ". ")
+                    + (MonthOfBirth == "-" ? ("") : MonthOfBirth + " ")
+                    + (YearOfBirth == "" ? ("") : YearOfBirth + " (" + 
+                    (DateTime.Now.Year - Convert.ToInt32(YearOfBirth)).ToString() + ")" + "\r\n");
             }
 
             string dateOfAnn = "";
-            if (DayOfAnn != "-" || MonthOfAnn != "-" || YearOfAnn != "")
+            if (DayOfAnn != "-" && DayOfAnn != "0" || MonthOfAnn != "-" ||
+                   YearOfAnn != "")
             {
                 dateOfAnn = "Anniversary "
-                    + (DayOfAnn == "-" ? ("") : DayOfAnn + ".")
-                    + (MonthOfAnn == "-" ? ("") : MonthOfAnn)
-                    + (YearOfAnn == "" ? ("") : YearOfAnn + "(" +
-                    (DateTime.Now.Year - Convert.ToInt32(YearOfAnn)).ToString() + ")");
+                    + (DayOfAnn == "-" ? ("") : DayOfAnn + ". ")
+                    + (MonthOfAnn == "-" ? ("") : MonthOfAnn + " ")
+                    + (YearOfAnn == "" ? ("") : YearOfAnn + " (" +
+                    (DateTime.Now.Year - Convert.ToInt32(YearOfAnn)).ToString() + ")\r\n");
             }
 
-            string phone2 = Phone2 == "" ? ("") : "P:" + Phone2;
+            string dates = (dateOfBirth == "" ? ("") : dateOfBirth)
+                + (dateOfAnn == "" ? ("") : dateOfAnn);
 
-            string[] allPropertiesList = { fullName, Nickname, Company,
-                Title, Address, phones, Email1, Email2,
-                Email3, homepage, dateOfBirth, dateOfAnn, Address2, phone2, Notes };
+            string additional = (Address2 == "" ? ("") : Address2.Trim() + "\r\n")
+                + (Phone2 == "" ? ("") : "\r\nP: " + Phone2.Trim() + "\r\n")
+                + (Notes == "" ? ("") : "\r\n" + Notes.Trim());
 
-            string allProperties = "";
-
-            foreach (string property in allPropertiesList)
-            {
-                //удаление всех пробелов из текст
-                allProperties = Regex.Replace(String.Concat(allProperties, property), "[ ]", "");
-            }
+            string allProperties = ((generalInfo == "" ? ("") : generalInfo)
+                + (phones == "" ? ("") : "\r\n" + phones)
+                + (emails == "" ? ("") : "\r\n" + emails)
+                + (dates == "" ? ("") : "\r\n" + dates)
+                + (additional == "" ? ("") : "\r\n" + additional)).Trim();
 
             return allProperties;
         }

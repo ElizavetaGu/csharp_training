@@ -45,7 +45,7 @@ namespace addressbook_web_tests
             SeeContactProperties(index);
             string allProperties = driver.FindElement(By.Id("content")).Text;
             //allProperties = allProperties.Replace("\r\n", "");
-            allProperties = Regex.Replace(allProperties, "[ \r\n]", "");
+            //allProperties = Regex.Replace(allProperties, "[ \r\n]", "");
             return new ContactData()
             {
                 AllProperties = allProperties
