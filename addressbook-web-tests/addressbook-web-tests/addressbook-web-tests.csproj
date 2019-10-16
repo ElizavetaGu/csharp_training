@@ -91,7 +91,15 @@
     <Compile Include="Tests\GroupCreationTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="group.csv" />
+    <None Include="contact.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="contact.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="group.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="group.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
