@@ -161,6 +161,9 @@ namespace addressbook_test_data_generators
             foreach (ContactData contact in contacts)
             {
                 sheet.Cells[row, 1] = contact.Name;
+                sheet.Cells[row, 2] = contact.AllProperties;
+                sheet.Cells[row, 3] = contact.AllPhones;
+                sheet.Cells[row, 4] = contact.AllEmails;
                 row++;
             }
             SaveAndCloseExcel(fileName, app, wb);
