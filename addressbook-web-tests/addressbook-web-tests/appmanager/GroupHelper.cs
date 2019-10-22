@@ -21,12 +21,20 @@ namespace addressbook_web_tests
 
             SelectGroup(index);
             RemoveGroup();
+            ReturnToGroupsPage(); 
+        }
+
+        public void Remove(GroupData group)
+        {
+            manager.Navigator.GoToGroupsPage();
+
+            SelectGroup(group.ID);
+            RemoveGroup();
             ReturnToGroupsPage();
-            
         }
 
         private List<GroupData> groupCashe = null;
-
+        
         public List<GroupData> GetGroupList()
         {
             if (groupCashe == null)
@@ -45,6 +53,43 @@ namespace addressbook_web_tests
             }
             return new List<GroupData>(groupCashe);
             //возвращает не сам кэш, а его копию, которая постоена из старого
+        }
+
+        public GroupData FindGroupWithContact()
+        {
+            GroupData groupWithContact = new GroupData();
+            if (!manager.Contacts.DoesContactInGroupExist())
+            {
+                if (!DoesGroupExist())
+                {
+                    groupWithContact = new GroupData("name");
+                    Create(groupWithContact);
+                }
+                groupWithContact = GroupData.GetAll()[0];
+
+                if (!manager.Contacts.DoesContactExist())
+                {
+                    ContactData newContact = new ContactData("name");
+                    manager.Contacts.Create(newContact);
+                }
+                List<ContactData> oldListAdd = groupWithContact.GetContacts();
+                ContactData contactN = ContactData.GetAll().Except(oldListAdd).First();
+                manager.Contacts.AddContactToGroup(contactN, groupWithContact);
+            }
+
+            GroupContactRelation groupWithC = GroupContactRelation.GetAll()[0];
+
+            List<GroupData> allGroups = GroupData.GetAll();
+            
+            foreach (GroupData group in allGroups)
+            {
+                if (group.ID == groupWithC.GroupID)
+                {
+                    groupWithContact = group;
+                    break;
+                }
+            }
+            return groupWithContact;
         }
 
         public int GetGroupCount()
@@ -119,6 +164,11 @@ namespace addressbook_web_tests
         public GroupHelper SelectGroup(int index)
         {
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index+1) + "]")).Click();
+            return this;
+        }
+        public GroupHelper SelectGroup(string id)
+        {
+            driver.FindElement(By.XPath("(//input[@name='selected[]' and @value='"+id+"'])")).Click();
             return this;
         }
         public GroupHelper RemoveGroup()
