@@ -24,7 +24,7 @@ namespace addressbook_web_tests
             AllProperties = allProperties;
         }
 
-        [Column(Name = "id"), PrimaryKey]
+        [Column(Name = "id"), PrimaryKey, Identity]
         public string ID { get; set; }
 
         [Column(Name = "firstname")]

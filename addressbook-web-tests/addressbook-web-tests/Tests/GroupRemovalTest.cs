@@ -17,7 +17,7 @@ namespace addressbook_web_tests
         {
             if (!app.Groups.DoesGroupExist())
             {
-                GroupData group = new GroupData("name");
+                GroupData group = new GroupData("name"); 
                 app.Groups.Create(group);
             }
 

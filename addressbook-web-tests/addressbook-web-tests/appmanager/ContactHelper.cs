@@ -116,7 +116,7 @@ namespace addressbook_web_tests
         public ContactData GetContactInfoFromEditForm(int index)
         {
             manager.Navigator.OpenHomePage();
-            InitContactModification(index);
+            InitContactModification();
             string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
             string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
             string address = driver.FindElement(By.Name("address")).GetAttribute("value");
@@ -220,11 +220,20 @@ namespace addressbook_web_tests
             manager.Navigator.OpenHomePage();
         }
 
-        public ContactHelper Modify(ContactData contact, int index)
+        public void Remove(ContactData contact)
         {
 
-            SelectContact(index);
-            InitContactModification(index);
+            SelectContact(contact.ID);
+            DeleteContact();
+            ConfirmContactRemoval();
+            manager.Navigator.OpenHomePage();
+        }
+
+        public ContactHelper Modify(ContactData contact, ContactData toBeModified)
+        {
+
+            SelectContact(toBeModified.ID);
+            InitContactModification();
             FillContactForm(contact);
             UpdateContact();
             manager.Navigator.OpenHomePage();
@@ -261,9 +270,9 @@ namespace addressbook_web_tests
             return this;
         }
 
-        public ContactHelper InitContactModification(int index)
+        public ContactHelper InitContactModification()
         {
-            driver.FindElements(By.Name("entry"))[index]
+            driver.FindElements(By.Name("entry"))[0]
                 .FindElements(By.TagName("td"))[7]
                 .FindElement(By.TagName("a")).Click();
             return this;

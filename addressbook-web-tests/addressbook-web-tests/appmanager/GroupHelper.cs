@@ -126,6 +126,18 @@ namespace addressbook_web_tests
             
             return this;
         }
+        public GroupHelper Modify(GroupData modificationData, GroupData toBeModified)
+        {
+            manager.Navigator.GoToGroupsPage();
+
+            SelectGroup(toBeModified.ID);
+            InitGroupModification();
+            FillGroupForm(modificationData);
+            UpdateGroup();
+            ReturnToGroupsPage();
+
+            return this;
+        }
         public GroupHelper InitGroupCreation()
         {
             driver.FindElement(By.Name("new")).Click();

@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace addressbook_web_tests
 {
     [TestFixture]
-    public class ContactInfoTests : AuthTestBase
+    public class ContactInfoTests : ContactTestBase
     {
 
         [Test]
