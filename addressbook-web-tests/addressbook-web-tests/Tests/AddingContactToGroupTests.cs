@@ -12,6 +12,16 @@ namespace addressbook_web_tests
         [Test]
         public void AddingContactToGroupTest()
         {
+            if (!app.Groups.DoesGroupExist())
+            {
+                GroupData newGroup = new GroupData("name");
+                app.Groups.Create(newGroup);
+            }
+            if (!app.Contacts.DoesContactExist())
+            {
+                ContactData newContact = new ContactData("name");
+                app.Contacts.Create(newContact);
+            }
             //получить первую группу
             GroupData group = GroupData.GetAll()[0];
             //получить все контакты, которые добавлены в эту группу
