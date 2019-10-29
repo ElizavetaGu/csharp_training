@@ -22,6 +22,11 @@ namespace addressbook_web_tests
                 ContactData newContact = new ContactData("name");
                 app.Contacts.Create(newContact);
             }
+            if (app.Contacts.AreAllContactsInAllGroups())
+            {
+                ContactData newContact = new ContactData("name");
+                app.Contacts.Create(newContact);
+            }
             //получить первую группу
             GroupData group = GroupData.GetAll()[0];
             //получить все контакты, которые добавлены в эту группу

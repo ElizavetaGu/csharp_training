@@ -39,6 +39,18 @@ namespace addressbook_web_tests
             };
         }
 
+        public bool AreAllContactsInAllGroups()
+        {
+            int numberOfContactGroupPairs = GroupContactRelation.GetAll().Count();
+            int numberOfContacts = ContactData.GetAll().Count();
+            int numberOfGroups = GroupData.GetAll().Count();
+            if (numberOfContactGroupPairs == numberOfContacts * numberOfGroups)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public void RemoveContactFromGroup(ContactData contact, GroupData group)
         {
             manager.Navigator.OpenHomePage();
