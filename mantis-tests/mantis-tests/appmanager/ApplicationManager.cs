@@ -20,17 +20,23 @@ namespace mantis_tests
         public FTPHelper FTP { get; set; }
         public JamesHelper James { get; set; }
         public MailHelper Mail { get; set; }
+        public LoginHelper Auth { get; set; }
+        public ManagementMenuHelper ManagementMenu { get; set; }
+        public ProjectManagementHelper Project { get; set; }
 
         private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>();
 
         private ApplicationManager()
         {
             driver = new FirefoxDriver();
-            baseURL = "http://localhost/mantisbt-2.22.1/login_page.php";
+            baseURL = "http://localhost/mantisbt-2.22.1";
             Registration = new RegistrationHelper(this);
             FTP = new FTPHelper(this);
             James = new JamesHelper(this);
             Mail = new MailHelper(this);
+            Auth = new LoginHelper(this);
+            ManagementMenu = new ManagementMenuHelper(this, baseURL);
+            Project = new ProjectManagementHelper(this);
         }
 
         ~ApplicationManager()

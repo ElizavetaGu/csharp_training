@@ -29,6 +29,11 @@ namespace mantis_tests
             }
         }
 
+        public bool DoRecordsExist()
+        {
+            return IsElementPresent(By.XPath("//td/a"));
+        }
+
         public bool IsElementPresent(By by)
         {
             try
