@@ -21,7 +21,7 @@ namespace mantis_tests
                 Password = "root"
             };
 
-            Mantis.ProjectData[] projects = app.API.GetAllProjectsList(account);
+            /*Mantis.ProjectData[] projects = app.API.GetAllProjectsList(account);
 
             if (projects.Length == 0)
             {
@@ -34,7 +34,7 @@ namespace mantis_tests
             }
 
             Mantis.ProjectData project = app.API.GetAllProjectsList(account)[0];
-            app.API.RemoveProject(account, project.id);
+            app.API.RemoveProject(account, project.id);*/
         }
 
     }

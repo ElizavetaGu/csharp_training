@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
 using SimpleBrowser.WebDriver;
-using System.Text.RegularExpressions;
 
 namespace mantis_tests 
 {
@@ -26,11 +26,23 @@ namespace mantis_tests
 
         }
 
-        public Mantis.ProjectData[] GetAllProjectsList(AccountData account)
+        public List<ProjectData> GetAllProjectsList(AccountData account)
         {
             Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
             Mantis.ProjectData[] projects = client.mc_projects_get_user_accessible(account.Name, account.Password);
-            return projects;
+                        
+            List<ProjectData> listOfProjects = new List<ProjectData>();
+            
+            foreach (Mantis.ProjectData m in projects)
+            {
+                listOfProjects.Add(new ProjectData()
+                {
+                    Name = m.name,
+                    ID = m.id
+                });
+            }
+
+            return listOfProjects;
         }
 
         public void CreateNewProject(AccountData account, ProjectData projectData)

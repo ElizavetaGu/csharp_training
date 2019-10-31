@@ -16,10 +16,32 @@ namespace mantis_tests
         public void ProjectCreationTest()
         {
             DateTime now = DateTime.Now;
-            ProjectData project = new ProjectData();
-            project.Name = "testproject" + now.ToString("hhmmssddMMyyyy");
+
+            AccountData account = new AccountData()
+            {
+                Name = "administrator",
+                Password = "root"
+            };
+
+            ProjectData project = new ProjectData()
+            {
+                Name = "testproject" + now.ToString("hhmmssddMMyyyy")
+            };
+
+            var oldProjects = app.API.GetAllProjectsList(account);
 
             app.Project.CreateProject(project);
+
+            var newProjects = app.API.GetAllProjectsList(account);
+            int number = newProjects.Count - 1;
+
+            Assert.AreEqual(oldProjects.Count + 1, newProjects.Count);
+            project.ID = newProjects[number].ID;
+            oldProjects.Add(project);
+            oldProjects.Sort();
+            newProjects.Sort();
+
+            Assert.AreEqual(oldProjects, newProjects);
         }
 
     }
