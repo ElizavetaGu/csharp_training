@@ -8,6 +8,7 @@ namespace mantis_tests
 {
     public class ProjectData
     {
+        public string ID {get; set;}
         public string Name { get; set; }
 
     }

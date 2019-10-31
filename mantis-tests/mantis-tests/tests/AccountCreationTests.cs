@@ -24,12 +24,21 @@ namespace mantis_tests
         [Test]
         public void AccountCreationTest()
         {
+            
+
             AccountData account = new AccountData()
             {
                 Name = "testuser6", 
                 Password = "password",
                 Email = "testuser6@localhost.localdomain"
             };
+
+            List<AccountData> accounts = app.Admin.GetAllAccounts();
+            AccountData existingAccount = accounts.Find(x => x.Name == account.Name);
+            if (existingAccount != null)
+            {
+                app.Admin.DeleteAccount(existingAccount);
+            }
 
             app.James.Delete(account);
             app.James.Add(account);
@@ -41,8 +50,7 @@ namespace mantis_tests
 
         public void RestoreConfig()
         {
-            app.FTP.RestoreBackedupFile("/config_inc.php"); 
-
+            app.FTP.RestoreBackedupFile("/config_inc.php");
         }
     }
 }
