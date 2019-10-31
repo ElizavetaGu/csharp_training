@@ -111,7 +111,9 @@
     <Compile Include="model\AccountData.cs" />
     <Compile Include="tests\AddNewIssue.cs" />
     <Compile Include="tests\AuthTestBase.cs" />
+    <Compile Include="tests\APIProjectCreationTest.cs" />
     <Compile Include="tests\ProjectCreationTest.cs" />
+    <Compile Include="tests\APIProjectRemovalTest.cs" />
     <Compile Include="tests\ProjectRemovalTest.cs" />
     <Compile Include="tests\TestBase.cs" />
     <Compile Include="tests\UnitTest1.cs" />

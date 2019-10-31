@@ -25,5 +25,27 @@ namespace mantis_tests
             client.mc_issue_add(account.Name, account.Password, issue);
 
         }
+
+        public Mantis.ProjectData[] GetAllProjectsList(AccountData account)
+        {
+            Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
+            Mantis.ProjectData[] projects = client.mc_projects_get_user_accessible(account.Name, account.Password);
+            return projects;
+        }
+
+        public void CreateNewProject(AccountData account, ProjectData projectData)
+        {
+            Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
+            Mantis.ProjectData project = new Mantis.ProjectData();
+            project.name = projectData.Name;
+            client.mc_project_add(account.Name, account.Password, project);
+        }
+
+        public void RemoveProject(AccountData account, string projectID)
+        {
+            Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
+            
+            client.mc_project_delete(account.Name, account.Password, projectID);
+        }
     }
 }
