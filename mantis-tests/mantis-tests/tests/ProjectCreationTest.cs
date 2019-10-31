@@ -44,5 +44,29 @@ namespace mantis_tests
             Assert.AreEqual(oldProjects, newProjects);
         }
 
+        [Test]
+        public void ProjectCreationTestGUI()
+        {
+            DateTime now = DateTime.Now;
+
+            ProjectData project = new ProjectData()
+            {
+                Name = "testproject" + now.ToString("hhmmssddMMyyyy")
+            };
+
+            var oldProjects = app.Project.GetProjectsFromGUI();
+
+            app.Project.CreateProject(project);
+
+            var newProjects = app.Project.GetProjectsFromGUI();
+            int number = newProjects.Count - 1;
+
+            Assert.AreEqual(oldProjects.Count + 1, newProjects.Count);
+            oldProjects.Add(project);
+            oldProjects.Sort();
+            newProjects.Sort();
+
+            Assert.AreEqual(oldProjects, newProjects);
+        }
     }
 }

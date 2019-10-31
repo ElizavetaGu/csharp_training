@@ -54,5 +54,35 @@ namespace mantis_tests
                 Assert.AreNotEqual(project.ID, toBeRemoved.ID);
             }
         }
-}
+
+        [Test]
+        public void ProjectRemovalTestGUI()
+        {
+            DateTime now = DateTime.Now;
+
+            var oldProjects = app.Project.GetProjectsFromGUI();
+
+            if (oldProjects.Count == 0)
+            {
+                ProjectData newProject = new ProjectData()
+                {
+                    Name = "testproject" + now.ToString("hhmmssddMMyyyy")
+                };
+
+                app.Project.CreateProject(newProject);
+                oldProjects = app.Project.GetProjectsFromGUI();
+            }
+
+            app.Project.RemoveProject(1);
+
+            var newProjects = app.Project.GetProjectsFromGUI();
+
+            Assert.AreEqual(oldProjects.Count - 1, newProjects.Count);
+            oldProjects.RemoveAt(0);
+            oldProjects.Sort();
+            newProjects.Sort();
+
+            Assert.AreEqual(oldProjects, newProjects);
+        }
+    }
 }

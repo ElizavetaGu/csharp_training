@@ -70,5 +70,19 @@ namespace mantis_tests
             driver.FindElement(By.XPath("//button[@type='submit']")).Click();
         }
 
+        public List<ProjectData> GetProjectsFromGUI()
+        {
+            manager.ManagementMenu.GoToProjectManagementPage();
+            List<ProjectData> allProjects = new List<ProjectData>();
+            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("td a"));
+            foreach (IWebElement element in elements)
+            {
+                allProjects.Add(new ProjectData()
+                {
+                    Name = element.Text
+                });
+            }
+            return allProjects;
+        }
     }
 }
